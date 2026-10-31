@@ -107,6 +107,18 @@ export const skills = {
 // generated initials placeholder.
 export const projects = [
   {
+    id: 5,
+    title: "Campus Food Ordering System",
+    type: "PHP web application",
+    description:
+      "A web-based campus food ordering system built with PHP and MySQL to organize food ordering and campus canteen operations. Includes food management, a shopping cart, user access control, authentication, order management, email integration (PHPMailer), PDF generation (Dompdf), and Google API integration.",
+    architecture: "PHP routing + MySQL database",
+    imageSrc: "",
+    technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript", "Composer", "PHPMailer", "Dompdf", "Google API"],
+    demoUrl: null,
+    repoUrl: "https://github.com/htet-nandar-linn/Campus-Food-Ordering-System",
+  },
+  {
     id: 3,
     title: "Horizon Banking Platform",
     type: "Fintech web application",
@@ -140,7 +152,7 @@ export const projects = [
     imageSrc: "",
     technologies: ["PHP", "MySQL"],
     demoUrl: null,
-    repoUrl: null,
+    repoUrl: "https://github.com/htet-nandar-linn/Media-Library",
   },
   {
     id: 2,
@@ -152,7 +164,7 @@ export const projects = [
     imageSrc: "",
     technologies: ["PHP", "MySQL", "JavaScript"],
     demoUrl: null,
-    repoUrl: null,
+    repoUrl: "https://github.com/htet-nandar-linn/GrapeCultivationAdvisoryChatSystem-AI-Chat-System",
   },
 ];
 
