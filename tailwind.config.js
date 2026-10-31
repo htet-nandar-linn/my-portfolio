@@ -46,9 +46,44 @@ export default {
           "0%": { opacity: "0", transform: "translateY(12px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-14px)" },
+        },
+        pulseGlow: {
+          "0%, 100%": { opacity: "0.5" },
+          "50%": { opacity: "0.9" },
+        },
+        heroBlur: {
+          from: { opacity: "0", filter: "blur(0.5em)" },
+          to: { opacity: "1", filter: "blur(0)" },
+        },
+        heroIn: {
+          "0%": {
+            opacity: "0",
+            transform: "translate3d(0, 1.75rem, 0)",
+            filter: "blur(0.35em)",
+          },
+          "60%": { opacity: "1", filter: "blur(0)" },
+          "75%": { transform: "translate3d(0, -0.25rem, 0)" },
+          "100%": {
+            opacity: "1",
+            transform: "translate3d(0, 0, 0)",
+            filter: "blur(0)",
+          },
+        },
+        caretBlink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        },
       },
       animation: {
         "fade-up": "fadeUp 0.6s ease-out both",
+        float: "float 7s ease-in-out infinite",
+        "pulse-glow": "pulseGlow 4s ease-in-out infinite",
+        "hero-blur": "heroBlur 0.9s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "hero-in": "heroIn 0.95s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "caret-blink": "caretBlink 1s step-end infinite",
       },
     },
   },

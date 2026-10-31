@@ -7,10 +7,14 @@
  */
 
 // ===== Profile / Hero =====
+// Builds asset URLs that follow Vite's `base` setting, so images keep working
+// on localhost, file/hosted sub-paths, and static previews.
+const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
+
 export const profile = {
   name: "Htet Nandar Linn",
   /***** Professional title *****/
-  title: "IT Student | Aspiring Web Developer",
+  title: "Full Stack Developer",
   location: "Yangon, Myanmar",
   email: "htetnandarlinn14@gmail.com",
   // Displayed phone number vs. the value used inside the tel: link
@@ -18,13 +22,19 @@ export const profile = {
   phoneLink: "+959752479443",
   github: "https://github.com/htetnandarlinn14",
   // Replace this file with a new photo if you ever change your picture.
-  imageSrc: "/images/profile.jpg",
+  imageSrc: asset("images/profile.jpg"),
   imageAlt: "Portrait of Htet Nandar Linn",
-  // Short hero introduction (keep it truthful and editable).
-  intro:
-    "I'm an IT student and aspiring web developer based in Yangon, Myanmar. I'm interested in how web applications are built and structured — from a clean interface to the software architecture behind it — and I enjoy creating practical tools that are genuinely useful to the people who use them.",
-  // Small pill shown next to the hero (matches the stated purpose of the site).
-  availability: "Open to internship & junior developer roles",
+};
+
+// ===== Hero =====
+// The greeting and name animate in, then `typed` rotates one phrase at a time.
+// `role` is the stable, screen-reader-friendly description of what you do.
+export const hero = {
+  greeting: "Hi There,",
+  name: profile.name,
+  nameHighlight: "Linn",
+  role: "Full Stack Developer",
+  typed: ["Full Stack Developer", "Web Developer"],
 };
 
 // ===== Navigation links (used by the navbar and footer) =====
@@ -32,16 +42,22 @@ export const navLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
   { name: "Education", href: "#education" },
+  { name: "Experience", href: "#experience" },
+  { name: "Projects", href: "#projects" },
   { name: "Contact", href: "#contact" },
 ];
 
 // ===== About Me =====
 export const about = {
+  // Large lead line at the top of the About section (`<strong>` is allowed).
+  lead: "I'm <strong>Htet Nandar Linn</strong>",
+  // Accent line shown just under the lead.
+  role: "Full Stack Developer",
   paragraphs: [
-    "I'm currently studying for a Bachelor of Computer Science (B.C.Sc.) at the University of Computer Studies, Meiktila, and I expect to graduate in 2027. Alongside my coursework, I practise web development by building small projects with PHP, JavaScript, and React.",
-    "I'm especially interested in software engineering fundamentals — object-oriented programming, the MVC pattern, and Domain-Driven Design — and in writing code that stays readable as a project grows. My goal is to gain internship or junior developer experience where I can keep learning from real codebases and contribute to applications that are well built and genuinely useful.",
+    "<strong>I'm a Full Stack Developer</strong> with approximately <strong>1 year of experience</strong> in web development. I enjoy building <strong>responsive web applications</strong> and writing <strong>clean, maintainable code</strong>.",
+    "My technical skills include <strong>PHP</strong>, <strong>Laravel</strong>, <strong>React</strong>, <strong>JavaScript</strong>, <strong>HTML5</strong>, <strong>CSS3</strong>, <strong>Tailwind CSS</strong>, and <strong>MySQL</strong>. I also use <strong>Git</strong>, <strong>GitHub</strong>, <strong>Vite</strong>, <strong>Postman</strong>, and <strong>Figma</strong> in my development workflow.",
+    "Currently, I work at <strong>ITVisionHub Co., Ltd.</strong> in <strong>Yangon, Myanmar</strong>, where I continue developing my technical skills and gaining practical experience in software development.",
   ],
 };
 
@@ -87,27 +103,84 @@ export const skills = {
 // ===== Projects =====
 // `demoUrl` / `repoUrl` are null until a real, confirmed URL exists.
 // While they are null the card links to the GitHub profile instead of
-// inventing a repository link.
+// inventing a repository link. Leave `imageSrc` empty to show the
+// generated initials placeholder.
 export const projects = [
+  {
+    id: 3,
+    title: "Horizon Banking Platform",
+    type: "Fintech web application",
+    description:
+      "A fintech dashboard that connects multiple bank accounts, shows balances and transaction history in real time, and lets users transfer funds securely. Includes SSR authentication, bank linking, spending summaries, and a responsive interface.",
+    architecture: "Next.js App Router · SSR authentication",
+    imageSrc: "",
+    technologies: ["Next.js", "TypeScript", "Appwrite", "Plaid", "Tailwind CSS"],
+    demoUrl: null,
+    repoUrl: "https://github.com/htet-nandar-linn/banking",
+  },
+  {
+    id: 4,
+    title: "Movie Discovery App",
+    type: "React web application",
+    description:
+      "A movie discovery app powered by the TMDB API. Browse popular films, search by title, view posters and details, and see the most-searched movies ranked on the home page using browser storage.",
+    architecture: "Component-based React · Local storage",
+    imageSrc: "",
+    technologies: ["React", "Vite", "JavaScript", "Tailwind CSS", "TMDB API"],
+    demoUrl: null,
+    repoUrl: "https://github.com/htet-nandar-linn/Vite-Project",
+  },
   {
     id: 1,
     title: "Media Library Management System",
+    type: "Web application",
     description:
       "A library management application organized into modules for catalog management, reservations, invoices, and notifications. The project explores object-oriented programming, the MVC pattern, and separation of application responsibilities.",
-    imageSrc: "/placeholders/project-placeholder.svg",
-    technologies: ["PHP", "MySQL", "MVC", "Object-Oriented Programming"],
+    architecture: "MVC · Object-Oriented Programming",
+    imageSrc: "",
+    technologies: ["PHP", "MySQL"],
     demoUrl: null,
     repoUrl: null,
   },
   {
     id: 2,
     title: "Grape Cultivation Advisory Chat System",
+    type: "Web application",
     description:
       "An advisory chat system concept designed to help users access grape cultivation guidance. The application follows Domain-Driven Design (DDD) concepts to organize business rules and application responsibilities.",
-    imageSrc: "/placeholders/project-placeholder.svg",
-    technologies: ["PHP", "MySQL", "JavaScript", "Domain-Driven Design (DDD)"],
+    architecture: "Domain-Driven Design (DDD)",
+    imageSrc: "",
+    technologies: ["PHP", "MySQL", "JavaScript"],
     demoUrl: null,
     repoUrl: null,
+  },
+];
+
+// ===== Services =====
+export const services = [
+  {
+    id: 1,
+    title: "Web Development",
+    description:
+      "Building responsive, modern web applications with clean architecture and maintainable code across frontend and backend.",
+    icon: "code",
+    features: ["Frontend & Backend", "Responsive Design", "Clean Code"],
+  },
+  {
+    id: 2,
+    title: "Full Stack Solutions",
+    description:
+      "End-to-end development from UI design to database architecture, delivering complete and scalable solutions.",
+    icon: "layers",
+    features: ["API Development", "Database Design", "Deployment Ready"],
+  },
+  {
+    id: 3,
+    title: "UI/UX Implementation",
+    description:
+      "Translating designs into pixel-perfect, interactive interfaces with smooth animations and great user experience.",
+    icon: "layout",
+    features: ["Tailwind CSS", "Figma to Code", "Interactive UI"],
   },
 ];
 
@@ -124,9 +197,33 @@ export const education = [
 ];
 
 // ===== Experience =====
-// Optional section. It stays hidden while this list is empty, because no
-// employment experience has been provided (nothing is invented).
-export const experience = [];
+export const experience = [
+  {
+    id: 1,
+    role: "Full Stack Developer",
+    company: "ITVisionHub Co., Ltd.",
+    location: "Yangon, Myanmar",
+    period: "2025 – Present",
+    type: "Current Role",
+    description:
+      "Working as a Full Stack Developer, building and maintaining web applications across both frontend and backend.",
+    technologies: [
+      "PHP",
+      "Laravel",
+      "React.js",
+      "JavaScript",
+      "HTML5",
+      "CSS3",
+      "Tailwind CSS",
+      "MySQL",
+      "Git",
+      "GitHub",
+      "Vite",
+      "Postman",
+      "Figma",
+    ],
+  },
+];
 
 // ===== Contact =====
 export const contact = {

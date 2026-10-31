@@ -7,6 +7,7 @@ import Skills from "./components/sections/Skills";
 import Projects from "./components/sections/Projects";
 import Education from "./components/sections/Education";
 import Experience from "./components/sections/Experience";
+import FeaturedWork from "./components/sections/FeaturedWork";
 import Contact from "./components/sections/Contact";
 
 /**
@@ -31,10 +32,10 @@ function App() {
         <Hero />
         <AboutMe />
         <Skills />
-        <Projects />
         <Education />
-        {/* Renders only when real experience data exists. */}
         <Experience />
+        <Projects />
+        <FeaturedWork />
         <Contact />
       </main>
 

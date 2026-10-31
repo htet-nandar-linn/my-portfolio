@@ -1,7 +1,6 @@
 import React from "react";
 import { Laptop } from "lucide-react";
 import Section from "../Section";
-import SectionHeading from "../SectionHeading";
 import { skills } from "../../data/portfolioData";
 
 /**
