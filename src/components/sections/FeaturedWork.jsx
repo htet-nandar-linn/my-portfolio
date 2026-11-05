@@ -70,6 +70,10 @@ const ProjectsMade = () => {
     [total]
   );
 
+  /* Enlarge the coverflow cards globally */
+  const CARD_HEIGHT = "32rem";
+  const CARD_WIDTH = "22rem";
+
   const onKeyDown = (event) => {
     if (active) return;
     if (event.key === "ArrowLeft") {
@@ -139,7 +143,7 @@ const ProjectsMade = () => {
         onKeyDown={onKeyDown}
       >
         <div
-          className="relative h-[26rem] w-full"
+          className={`relative ${CARD_HEIGHT} w-full`}
           style={{ transformStyle: "preserve-3d" }}
         >
           {items.map((project, index) => {
@@ -181,7 +185,7 @@ const ProjectsMade = () => {
                   }
                 }}
                 className={[
-                  "absolute left-1/2 top-1/2 flex w-[19rem] max-w-[80vw] flex-col overflow-hidden rounded-2xl border bg-secondary-dark/95 shadow-card backdrop-blur transition-all duration-500 ease-out",
+                  "absolute left-1/2 top-1/2 flex w-[22rem] max-w-[90vw] flex-col overflow-hidden rounded-2xl border bg-secondary-dark/95 shadow-card backdrop-blur transition-all duration-500 ease-out",
                   isActive
                     ? "cursor-pointer border-mint/50 hover:shadow-glow"
                     : "cursor-pointer border-mint/10",
@@ -190,7 +194,7 @@ const ProjectsMade = () => {
                   .filter(Boolean)
                   .join(" ")}
                 style={{
-                  height: "24rem",
+                  height: CARD_HEIGHT,
                   transform: `translate(-50%, -50%) translateX(${offset * spacing}px) scale(${scale}) rotateY(${offset * -8}deg)`,
                   opacity: isActive ? 1 : distance === 1 ? 0.84 : 0,
                   zIndex: 20 - distance,

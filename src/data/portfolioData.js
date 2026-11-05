@@ -20,7 +20,7 @@ export const profile = {
   // Displayed phone number vs. the value used inside the tel: link
   phone: "+959 752479443",
   phoneLink: "+959752479443",
-  github: "https://github.com/htetnandarlinn14",
+  github: "https://github.com/htet-nandar-linn",
   // Replace this file with a new photo if you ever change your picture.
   imageSrc: asset("images/profile.jpg"),
   imageAlt: "Portrait of Htet Nandar Linn",
@@ -265,7 +265,7 @@ export const socialLinks = [
     id: 3,
     name: "GitHub",
     icon: "github",
-    href: "https://github.com/htetnandarlinn14",
-    value: "github.com/htetnandarlinn14",
+    href: "https://github.com/htet-nandar-linn",
+    value: "github.com/htet-nandar-linn",
   },
 ];
