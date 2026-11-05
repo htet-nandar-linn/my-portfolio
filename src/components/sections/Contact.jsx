@@ -1,72 +1,147 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
-import { Mail, MapPin, Phone, Code2, Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  Phone,
+  Code2,
+  Send,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
 import Section from "../Section";
 import SectionHeading from "../SectionHeading";
 import { contact, profile, socialLinks } from "../../data/portfolioData";
 
 const iconMap = { mail: Mail, phone: Phone, github: Code2 };
 
+// Credentials come from the root .env file (never hard-coded in source).
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const IS_CONFIGURED = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY);
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+// Field names must match the EmailJS template variables exactly.
+const EMPTY_FORM = { from_name: "", from_email: "", subject: "", message: "" };
+
+const validate = (values) => {
+  const errors = {};
+
+  if (values.from_name.trim().length < 2) {
+    errors.from_name = "Please enter your name (at least 2 characters).";
+  }
+  if (!EMAIL_PATTERN.test(values.from_email.trim())) {
+    errors.from_email = "Please enter a valid email address.";
+  }
+  if (values.subject.trim().length < 3) {
+    errors.subject = "Please enter a subject (at least 3 characters).";
+  }
+  if (values.message.trim().length < 10) {
+    errors.message = "Please write a message (at least 10 characters).";
+  }
+
+  return errors;
+};
+
 /**
  * Contact
- * Includes direct contact cards & an EmailJS contact form.
+ * Real, working contact methods plus an EmailJS-powered contact form.
+ * Includes inline success/error notifications (no browser alert() popups).
  */
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+  const formRef = useRef(null);
+  // Guards against double submits (e.g. rapid clicks or Enter key spam).
+  const submittingRef = useRef(false);
 
-  const [status, setStatus] = useState({
-    loading: false,
-    success: false,
-    error: null,
-  });
+  const [values, setValues] = useState(EMPTY_FORM);
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState({ loading: false, success: false, error: null });
+
+  // Inline notification state
+  const [notification, setNotification] = useState(null); // { type: "success" | "error", message: string }
+
+  // Auto-hide success/error notification after 5 seconds
+  useEffect(() => {
+    if (notification) {
+      const timeoutId = setTimeout(() => setNotification(null), 5000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [notification]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+
+    // Clear a field error as soon as the visitor starts fixing it.
+    setErrors((prev) => (prev[name] ? { ...prev, [name]: undefined } : prev));
+
+    // Hide stale success/error notifications once the form changes again.
+    setNotification(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submittingRef.current) return;
+
+    const nextErrors = validate(values);
+    setErrors(nextErrors);
+
+    if (Object.keys(nextErrors).length > 0) {
+      setStatus({ loading: false, success: false, error: null });
+      const firstInvalid = Object.keys(nextErrors)[0];
+      formRef.current?.querySelector(`[name="${firstInvalid}"]`)?.focus();
+      return;
+    }
+
+    if (!IS_CONFIGURED) {
+      setNotification({
+        type: "error",
+        message:
+          "The contact form is not configured yet. Please email me directly at " + profile.email + ".",
+      });
+      setStatus({ loading: false, success: false, error: null });
+      return;
+    }
+
+    submittingRef.current = true;
     setStatus({ loading: true, success: false, error: null });
 
-    // Replace these with your actual EmailJS credentials
-    const SERVICE_ID = "service_default";
-    const TEMPLATE_ID = "template_default";
-    const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
-
     try {
-      await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          to_email: profile.email,
-        },
-        PUBLIC_KEY
-      );
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, {
+        publicKey: PUBLIC_KEY,
+      });
 
-      setStatus({ loading: false, success: true, error: null });
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      // Submission successful: show inline notification, reset form
+      setNotification({
+        type: "success",
+        message:
+          "Message Sent Successfully! Thank you for reaching out.",
+      });
+      setValues(EMPTY_FORM);
+      setErrors({});
+      formRef.current?.reset();
     } catch (err) {
-      console.error("EmailJS Error:", err);
-      // Fallback to mailto so it automatically opens their email app ready to send to your email
-      const mailtoUrl = `mailto:${profile.email}?subject=${encodeURIComponent(
-        formData.subject
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`;
-      window.location.href = mailtoUrl;
-
-      setStatus({ loading: false, success: true, error: null });
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      console.error("EmailJS error:", err);
+      const detail = err?.text || err?.message;
+      setNotification({
+        type: "error",
+        message:
+          detail ||
+          "Something went wrong. Please try again later. " +
+          "You can also email me directly at " + profile.email + ".",
+      });
+    } finally {
+      submittingRef.current = false;
     }
+  };
+
+  // Helper to close a notification manually
+  const closeNotification = () => {
+    setNotification(null);
+    if (hideTimeoutId) clearTimeout(hideTimeoutId);
   };
 
   return (
@@ -127,37 +202,61 @@ const Contact = () => {
 
           {/* EmailJS Contact Form */}
           <div className="card lg:col-span-7 p-6 sm:p-8">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="block text-xs uppercase tracking-wider text-muted-gray mb-1.5">
+                  <label htmlFor="from_name" className="block text-xs uppercase tracking-wider text-muted-gray mb-1.5">
                     Your Name
                   </label>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
+                    id="from_name"
+                    name="from_name"
+                    autoComplete="name"
                     required
-                    value={formData.name}
+                    value={values.from_name}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className="w-full rounded-xl bg-charcoal/50 border border-white/10 px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:border-mint focus:outline-none focus:ring-1 focus:ring-mint transition-colors"
+                    aria-invalid={Boolean(errors.from_name)}
+                    aria-describedby={errors.from_name ? "from_name-error" : undefined}
+                    className={`w-full rounded-xl bg-charcoal/50 border px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:outline-none focus:ring-1 transition-colors ${
+                      errors.from_name
+                        ? "border-red-500/60 focus:border-red-400 focus:ring-red-400"
+                        : "border-white/10 focus:border-mint focus:ring-mint"
+                    }`}
                   />
+                  {errors.from_name && (
+                    <p id="from_name-error" className="mt-1.5 text-xs text-red-400">
+                      {errors.from_name}
+                    </p>
+                  )}
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-xs uppercase tracking-wider text-muted-gray mb-1.5">
+                  <label htmlFor="from_email" className="block text-xs uppercase tracking-wider text-muted-gray mb-1.5">
                     Your Email
                   </label>
                   <input
                     type="email"
-                    id="email"
-                    name="email"
+                    id="from_email"
+                    name="from_email"
+                    autoComplete="email"
                     required
-                    value={formData.email}
+                    value={values.from_email}
                     onChange={handleChange}
                     placeholder="john@example.com"
-                    className="w-full rounded-xl bg-charcoal/50 border border-white/10 px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:border-mint focus:outline-none focus:ring-1 focus:ring-mint transition-colors"
+                    aria-invalid={Boolean(errors.from_email)}
+                    aria-describedby={errors.from_email ? "from_email-error" : undefined}
+                    className={`w-full rounded-xl bg-charcoal/50 border px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:outline-none focus:ring-1 transition-colors ${
+                      errors.from_email
+                        ? "border-red-500/60 focus:border-red-400 focus:ring-red-400"
+                        : "border-white/10 focus:border-mint focus:ring-mint"
+                    }`}
                   />
+                  {errors.from_email && (
+                    <p id="from_email-error" className="mt-1.5 text-xs text-red-400">
+                      {errors.from_email}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -170,11 +269,22 @@ const Contact = () => {
                   id="subject"
                   name="subject"
                   required
-                  value={formData.subject}
+                  value={values.subject}
                   onChange={handleChange}
                   placeholder="Junior Developer Opportunity"
-                  className="w-full rounded-xl bg-charcoal/50 border border-white/10 px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:border-mint focus:outline-none focus:ring-1 focus:ring-mint transition-colors"
+                  aria-invalid={Boolean(errors.subject)}
+                  aria-describedby={errors.subject ? "subject-error" : undefined}
+                  className={`w-full rounded-xl bg-charcoal/50 border px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:outline-none focus:ring-1 transition-colors ${
+                    errors.subject
+                      ? "border-red-500/60 focus:border-red-400 focus:ring-red-400"
+                      : "border-white/10 focus:border-mint focus:ring-mint"
+                  }`}
                 />
+                {errors.subject && (
+                  <p id="subject-error" className="mt-1.5 text-xs text-red-400">
+                    {errors.subject}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -186,24 +296,64 @@ const Contact = () => {
                   name="message"
                   required
                   rows={4}
-                  value={formData.message}
+                  value={values.message}
                   onChange={handleChange}
                   placeholder="Hi Htet Nandar, I'd like to talk about..."
-                  className="w-full rounded-xl bg-charcoal/50 border border-white/10 px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:border-mint focus:outline-none focus:ring-1 focus:ring-mint transition-colors resize-none"
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={errors.message ? "message-error" : undefined}
+                  className={`w-full rounded-xl bg-charcoal/50 border px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:outline-none focus:ring-1 transition-colors resize-none ${
+                    errors.message
+                      ? "border-red-500/60 focus:border-red-400 focus:ring-red-400"
+                      : "border-white/10 focus:border-mint focus:ring-mint"
+                  }`}
                 />
+                {errors.message && (
+                  <p id="message-error" className="mt-1.5 text-xs text-red-400">
+                    {errors.message}
+                  </p>
+                )}
               </div>
 
-              {status.success && (
-                <div className="flex items-center gap-2 rounded-xl bg-mint/10 border border-mint/20 p-3 text-sm text-mint">
-                  <CheckCircle2 size={18} className="shrink-0" />
-                  <span>Message sent successfully! Thank you for reaching out.</span>
+              {/* Inline Success Notification */}
+              {notification?.type === "success" && (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="mt-4 flex items-center gap-3 rounded-xl bg-charcoal/50 border border-green-500/20 p-4 text-sm font-medium text-green-400 transition-opacity ease-in-out duration-300"
+                >
+                  <CheckCircle2 size={20} className="shrink-0" />
+                  <div>
+                    <strong className="font-medium">Message Sent Successfully!</strong>
+                    <span className="block text-muted-gray/80">Thank you for reaching out. I'll get back to you as soon as possible.</span>
+                  </div>
+                  <button
+                    onClick={() => setNotification(null)}
+                    className="ml-auto opacity-70 hover:text-charcoal transition-colors"
+                    aria-label="Close notification"
+                  >
+                    ×
+                  </button>
                 </div>
               )}
 
-              {status.error && (
-                <div className="flex items-center gap-2 rounded-xl bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-400">
-                  <AlertCircle size={18} className="shrink-0" />
-                  <span>{status.error}</span>
+              {/* Inline Error Notification */}
+              {notification?.type === "error" && (
+                <div
+                  role="alert"
+                  className="mt-4 flex items-center gap-3 rounded-xl bg-charcoal/50 border border-red-500/20 p-4 text-sm font-medium text-red-400 transition-opacity ease-in-out duration-300"
+                >
+                  <AlertCircle size={20} className="shrink-0" />
+                  <div>
+                    <strong className="font-medium">Message Failed!</strong>
+                    <span className="block text-muted-gray/80">Something went wrong. Please try again later.</span>
+                  </div>
+                  <button
+                    onClick={() => setNotification(null)}
+                    className="ml-auto opacity-70 hover:text-charcoal transition-colors"
+                    aria-label="Close notification"
+                  >
+                    ×
+                  </button>
                 </div>
               )}
 
