@@ -33,11 +33,12 @@ I'm learning web development and building projects using React, PHP, Laravel, an
 
 ## 🚀 Projects
 
-- **My Portfolio:** Personal portfolio built with React and Tailwind CSS.
-- **BloodConnect:** Blood donation management system.
-- **MediaLibrary:** Media library management project.
-- **Banking:** Horizon — a modern banking platform for everyone.
+- **My Portfolio:** Personal portfolio website built with React and Tailwind CSS.
+- **MediaLibrary:** Media library management system for organizing and managing media content.
+- **Banking:** Horizon — a modern digital banking platform designed to simplify financial management.
 - **Vite-Project:** Modern web application built with React and Vite.
+- **Campus Food Ordering System:** Online food ordering system designed to make campus food ordering easier and more convenient.
+- **Grape Cultivation Advisory Chat System:** Web-based grape cultivation advisory platform featuring AI-powered assistance and expert consultations.
 
 ## ✨ Features
 
