@@ -122,6 +122,7 @@ const Contact = () => {
       });
       setValues(EMPTY_FORM);
       setErrors({});
+      setStatus({ loading: false, success: true, error: null });
       formRef.current?.reset();
     } catch (err) {
       console.error("EmailJS error:", err);
@@ -133,6 +134,7 @@ const Contact = () => {
           "Something went wrong. Please try again later. " +
           "You can also email me directly at " + profile.email + ".",
       });
+      setStatus({ loading: false, success: false, error: null });
     } finally {
       submittingRef.current = false;
     }

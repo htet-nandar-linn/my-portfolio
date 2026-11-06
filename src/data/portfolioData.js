@@ -44,7 +44,7 @@ export const navLinks = [
   { name: "Skills", href: "#skills" },
   { name: "Education", href: "#education" },
   { name: "Experience", href: "#experience" },
-  { name: "Projects", href: "#projects" },
+  { name: "Projects", href: "#projects-made" },
 ];
 
 // ===== About Me =====
@@ -78,6 +78,9 @@ import {
   SiPostman,
   SiFigma,
   SiGit,
+  SiNextdotjs,
+  SiNestjs,
+  SiPostgresql,
 } from "react-icons/si";
 
 export const skills = {
@@ -96,6 +99,9 @@ export const skills = {
     { name: "Postman", icon: SiPostman, color: "#FF6C37" },
     { name: "Figma", icon: SiFigma, color: "#F24E1E" },
     { name: "Git", icon: SiGit, color: "#F05032" },
+    { name: "Next.js", icon: SiNextdotjs, color: "#61DAFB" },
+    { name: "NestJS", icon: SiNestjs, color: "#E0234E" },
+    { name: "PostgreSQL", icon: SiPostgresql, color: "#336791" },
   ],
 };
 
