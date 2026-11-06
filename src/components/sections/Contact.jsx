@@ -218,7 +218,6 @@ const Contact = () => {
                     required
                     value={values.from_name}
                     onChange={handleChange}
-                    placeholder="John Doe"
                     aria-invalid={Boolean(errors.from_name)}
                     aria-describedby={errors.from_name ? "from_name-error" : undefined}
                     className={`w-full rounded-xl bg-charcoal/50 border px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:outline-none focus:ring-1 transition-colors ${
@@ -245,7 +244,7 @@ const Contact = () => {
                     required
                     value={values.from_email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder=""
                     aria-invalid={Boolean(errors.from_email)}
                     aria-describedby={errors.from_email ? "from_email-error" : undefined}
                     className={`w-full rounded-xl bg-charcoal/50 border px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:outline-none focus:ring-1 transition-colors ${
@@ -273,7 +272,7 @@ const Contact = () => {
                   required
                   value={values.subject}
                   onChange={handleChange}
-                  placeholder="Junior Developer Opportunity"
+                  placeholder=""
                   aria-invalid={Boolean(errors.subject)}
                   aria-describedby={errors.subject ? "subject-error" : undefined}
                   className={`w-full rounded-xl bg-charcoal/50 border px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:outline-none focus:ring-1 transition-colors ${
@@ -300,7 +299,7 @@ const Contact = () => {
                   rows={4}
                   value={values.message}
                   onChange={handleChange}
-                  placeholder="Hi Htet Nandar, I'd like to talk about..."
+                  placeholder=""
                   aria-invalid={Boolean(errors.message)}
                   aria-describedby={errors.message ? "message-error" : undefined}
                   className={`w-full rounded-xl bg-charcoal/50 border px-4 py-3 text-sm text-off-white placeholder:text-muted-gray/50 focus:outline-none focus:ring-1 transition-colors resize-none ${
