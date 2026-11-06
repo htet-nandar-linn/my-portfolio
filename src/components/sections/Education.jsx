@@ -5,16 +5,14 @@ import Section from "../Section";
 import { education } from "../../data/portfolioData";
 
 const Education = () => {
-
-  // Supports both localhost and GitHub Pages
-  const backgroundImage = `${import.meta.env.BASE_URL}images/uni.jpg`;
+  const universityImage = `${import.meta.env.BASE_URL}images/uni.jpg`;
 
   return (
     <Section id="education">
       <div
         className="relative isolate overflow-hidden"
         style={{
-          backgroundImage: `url("${backgroundImage}")`,
+          backgroundImage: `url("${universityImage}")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -52,6 +50,7 @@ const Education = () => {
                 <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-deep-mint/5 blur-3xl transition-opacity duration-300 group-hover:opacity-80" />
 
                 <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start">
+
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-mint-gradient text-charcoal shadow-[0_25px_60px_-30px_rgba(94,234,212,0.9)]">
                     <GraduationCap size={22} />
                   </span>
@@ -85,6 +84,7 @@ const Education = () => {
                       </span>
                     </div>
                   </div>
+
                 </div>
               </article>
             ))}
