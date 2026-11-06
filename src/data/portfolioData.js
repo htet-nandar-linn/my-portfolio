@@ -34,7 +34,7 @@ export const hero = {
   name: profile.name,
   nameHighlight: "Linn",
   role: "Full Stack Developer",
-  typed: ["Full Stack Developer", "Web Developer"],
+  typed: ["Full Stack Developer"],
 };
 
 // ===== Navigation links (used by the navbar and footer) =====
@@ -44,7 +44,7 @@ export const navLinks = [
   { name: "Skills", href: "#skills" },
   { name: "Education", href: "#education" },
   { name: "Experience", href: "#experience" },
-  { name: "Contact", href: "#contact" },
+  { name: "Projects", href: "#projects" },
 ];
 
 // ===== About Me =====
@@ -112,8 +112,11 @@ export const projects = [
     description:
       "A web-based campus food ordering system built with PHP and MySQL to organize food ordering and campus canteen operations. Includes food management, a shopping cart, user access control, authentication, order management, email integration (PHPMailer), PDF generation (Dompdf), and Google API integration.",
     architecture: "PHP routing + MySQL database",
-    imageSrc: "",
-    technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript", "Composer", "PHPMailer", "Dompdf", "Google API"],
+    imageSrc: asset("images/food.jpg"),
+    technologies: [
+      "PHP", "MySQL", "HTML", "CSS", "JavaScript",
+      "Composer", "PHPMailer", "Dompdf", "Google API"
+    ],
     demoUrl: null,
     repoUrl: "https://github.com/htet-nandar-linn/Campus-Food-Ordering-System",
   },
@@ -124,8 +127,10 @@ export const projects = [
     description:
       "A fintech dashboard that connects multiple bank accounts, shows balances and transaction history in real time, and lets users transfer funds securely. Includes SSR authentication, bank linking, spending summaries, and a responsive interface.",
     architecture: "Next.js App Router · SSR authentication",
-    imageSrc: "",
-    technologies: ["Next.js", "TypeScript", "Appwrite", "Plaid", "Tailwind CSS"],
+    imageSrc: asset("images/banking.png"),
+    technologies: [
+      "Next.js", "TypeScript", "Appwrite", "Plaid", "Tailwind CSS"
+    ],
     demoUrl: null,
     repoUrl: "https://github.com/htet-nandar-linn/banking",
   },
@@ -136,8 +141,10 @@ export const projects = [
     description:
       "A movie discovery app powered by the TMDB API. Browse popular films, search by title, view posters and details, and see the most-searched movies ranked on the home page using browser storage.",
     architecture: "Component-based React · Local storage",
-    imageSrc: "",
-    technologies: ["React", "Vite", "JavaScript", "Tailwind CSS", "TMDB API"],
+    imageSrc: asset("images/movieDiscovery.png"),
+    technologies: [
+      "React", "Vite", "JavaScript", "Tailwind CSS", "TMDB API"
+    ],
     demoUrl: null,
     repoUrl: "https://github.com/htet-nandar-linn/Vite-Project",
   },
@@ -148,7 +155,7 @@ export const projects = [
     description:
       "A library management application organized into modules for catalog management, reservations, invoices, and notifications. The project explores object-oriented programming, the MVC pattern, and separation of application responsibilities.",
     architecture: "MVC · Object-Oriented Programming",
-    imageSrc: "",
+    imageSrc: asset("images/mediaLibrary.png"),
     technologies: ["PHP", "MySQL"],
     demoUrl: null,
     repoUrl: "https://github.com/htet-nandar-linn/Media-Library",
@@ -160,12 +167,13 @@ export const projects = [
     description:
       "An advisory chat system concept designed to help users access grape cultivation guidance. The application follows Domain-Driven Design (DDD) concepts to organize business rules and application responsibilities.",
     architecture: "Domain-Driven Design (DDD)",
-    imageSrc: "",
+    imageSrc: asset("images/grape.png"),
     technologies: ["PHP", "MySQL", "JavaScript"],
     demoUrl: null,
     repoUrl: "https://github.com/htet-nandar-linn/GrapeCultivationAdvisoryChatSystem-AI-Chat-System",
   },
 ];
+
 
 // ===== Services =====
 export const services = [

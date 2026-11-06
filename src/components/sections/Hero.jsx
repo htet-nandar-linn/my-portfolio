@@ -46,8 +46,8 @@ const INTRO_LINES = [
 const TONE = {
   eyebrow:
     "text-xl font-semibold tracking-tight text-off-white sm:text-2xl",
-  name: "mt-2.5 font-display text-[2.5rem] font-extrabold leading-[1.06] tracking-tight text-off-white sm:text-5xl lg:text-6xl xl:text-[4.25rem]",
-  role: "relative mt-2 text-[1.375rem] font-bold tracking-tight text-muted-gray sm:text-3xl lg:text-[2.25rem] xl:text-[2.5rem]",
+  name: "mt-2 font-display text-[2rem] font-extrabold leading-[1.06] tracking-tight text-off-white sm:text-4xl lg:text-5xl xl:text-[3.5rem]",
+  role: "relative mt-1 text-[1.125rem] font-bold tracking-tight text-muted-gray sm:text-2xl lg:text-[1.75rem] xl:text-[1.5rem]",
 };
 
 /* Split a line so `highlight` gets the gradient while the rest stays solid. */
@@ -168,9 +168,9 @@ function FloatingChip({ label, dot, position, delay }) {
 function AvatarPlaceholder({ initials }) {
   return (
     <div className="bg-grid grid aspect-[4/5] w-full place-items-center">
-      <div className="relative grid size-40 place-items-center rounded-full border border-mint/25 bg-secondary-dark/50 backdrop-blur-sm sm:size-44">
+      <div className="relative grid size-32 place-items-center rounded-full border border-mint/25 bg-secondary-dark/50 backdrop-blur-sm sm:size-36">
         <div className="absolute inset-0 rounded-full bg-mint-gradient opacity-25 blur-lg" />
-        <span className="relative bg-mint-gradient bg-clip-text text-5xl font-extrabold tracking-tight text-transparent">
+        <span className="relative bg-mint-gradient bg-clip-text text-3xl font-extrabold tracking-tight text-transparent">
           {initials}
         </span>
         <span className="absolute -bottom-3 rounded-full border border-mint/15 bg-charcoal/85 px-3 py-1 font-mono text-[10px] text-muted-gray backdrop-blur">
@@ -201,7 +201,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative overflow-hidden lg:flex lg:min-h-[calc(100svh-4.5rem)] lg:items-center"
+      className="relative overflow-hidden lg:flex lg:min-h-[calc(100svh-3rem)] lg:items-center"
     >
       {/* Ambient background */}
       <div aria-hidden="true" className="hero-shade absolute inset-0" />
@@ -218,8 +218,8 @@ const Hero = () => {
         className="absolute -top-24 right-0 size-96 animate-pulse-glow rounded-full bg-mint/15 blur-[130px]"
       />
 
-      <div className="relative mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-24">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14 xl:gap-20">
+      <div className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-20">
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.8fr] lg:gap-12 xl:gap-14">
           {/* ---------------- Left: copy ---------------- */}
           <div className="min-w-0 max-w-3xl">
             <h1
@@ -239,12 +239,12 @@ const Hero = () => {
             </h1>
 
             <div
-              className="mt-9 flex animate-fade-up flex-wrap items-center gap-3"
+              className="mt-6 flex animate-fade-up flex-wrap items-center gap-1"
               style={{ animationDelay: "0.45s" }}
             >
               <Button
                 href="#projects"
-                className="group px-6 py-3 text-sm"
+                className="group px-5 py-2.5 text-xs"
               >
                 View My Projects
                 <ArrowRight
@@ -255,14 +255,14 @@ const Hero = () => {
               <Button
                 href="#contact"
                 variant="outline"
-                className="px-6 py-3 text-sm"
+                className="px-5 py-2.5 text-xs"
               >
                 Contact Me
               </Button>
             </div>
 
             <div
-              className="mt-10 flex animate-fade-up flex-wrap items-center gap-x-5 gap-y-4"
+              className="mt-6 flex animate-fade-up flex-wrap items-center gap-x-3 gap-y-3"
               style={{ animationDelay: "0.6s" }}
             >
               <div className="flex items-center gap-2.5">
@@ -302,7 +302,7 @@ const Hero = () => {
 
           {/* ---------------- Right: profile ---------------- */}
           <div
-            className="relative mx-auto w-full max-w-[22rem] animate-fade-up sm:max-w-sm lg:max-w-[24rem] lg:justify-self-end"
+            className="relative mx-auto w-full max-w-[18rem] animate-fade-up sm:max-w-sm lg:max-w-[22rem] lg:justify-self-end"
             style={{ animationDelay: "0.35s" }}
           >
             <div className="relative">
@@ -311,7 +311,7 @@ const Hero = () => {
                 className="absolute -inset-6 rounded-[2.25rem] bg-gradient-to-br from-mint/25 via-transparent to-deep-mint/25 blur-2xl"
               />
 
-              <div className="relative rounded-[1.75rem] border border-mint/20 bg-secondary-dark/80 p-3 shadow-glow-lg backdrop-blur">
+              <div className="relative rounded-[1.5rem] border border-mint/15 bg-secondary-dark/80 p-2 shadow-glow-lg backdrop-blur">
                 <div className="relative overflow-hidden rounded-[1.35rem] bg-gradient-to-br from-secondary-dark to-charcoal">
                   {!photoFailed ? (
                     <img
@@ -351,7 +351,7 @@ const Hero = () => {
         aria-label="Scroll to About"
         className="group absolute bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-2 lg:inline-flex"
       >
-        <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-gray/70 transition-colors group-hover:text-muted-gray">
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-gray/70 transition-colors group-hover:text-muted-gray">
           Scroll
         </span>
         <span className="grid size-8 place-items-center rounded-full border border-mint/20 text-muted-gray transition-colors group-hover:border-mint/60 group-hover:text-off-white">
