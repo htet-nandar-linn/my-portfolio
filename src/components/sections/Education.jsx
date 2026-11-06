@@ -5,12 +5,16 @@ import Section from "../Section";
 import { education } from "../../data/portfolioData";
 
 const Education = () => {
+
+  // Supports both localhost and GitHub Pages
+  const backgroundImage = `${import.meta.env.BASE_URL}images/uni.jpg`;
+
   return (
     <Section id="education">
       <div
         className="relative isolate overflow-hidden"
         style={{
-          backgroundImage: "url('/images/uni.jpg')",
+          backgroundImage: `url("${backgroundImage}")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
